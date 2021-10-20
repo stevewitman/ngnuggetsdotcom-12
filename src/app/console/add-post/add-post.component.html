@@ -1,0 +1,288 @@
+<div class="page-container-wide">
+  <!-- <h1 class="page-title">Submit Post</h1> -->
+  <form [formGroup]="postForm" class="form-container">
+    <div class="form-col">
+      <!-- slug -->
+      <div class="form-row">
+        <!-- <div class="form-label">Slug</div> -->
+        <div class="form-field same-row">
+          <mat-form-field appearance="fill" color="primary">
+            <mat-label>Slug</mat-label>
+            <input
+              formControlName="slug"
+              id="slug"
+              type="text"
+              class="input-text"
+              matInput
+              #delivery
+              autocomplete="off"
+            />
+          </mat-form-field>
+          <!-- <button mat-raised-button (click)="findNextSlug()">Next</button> -->
+          
+        </div>
+      </div>
+
+      <!-- url -->
+      <div class="form-row">
+        <!-- <div class="form-label">URL</div> -->
+        <div class="form-field">
+          <mat-form-field appearance="fill" color="primary">
+            <mat-label>URL</mat-label>
+            <input
+              formControlName="url"
+              id="url"
+              type="text"
+              class="input-text"
+              matInput
+              #delivery
+              autocomplete="off"
+            />
+          </mat-form-field>
+        </div>
+      </div>
+
+      <!-- title -->
+      <div class="form-row">
+        <!-- <div class="form-label">Title</div> -->
+        <div class="form-field">
+          <mat-form-field appearance="fill" color="primary">
+            <mat-label>Title</mat-label>
+            <input
+              formControlName="title"
+              id="title"
+              type="text"
+              class="input-text"
+              matInput
+              #delivery
+              autocomplete="off"
+            />
+          </mat-form-field>
+        </div>
+      </div>
+
+      <!-- type -->
+      <div class="form-row">
+        <!-- <div class="form-label">Type</div> -->
+        <div class="form-radio">
+          <mat-radio-group class="radio-group"  formControlName="type">
+            <mat-radio-button class="radio-button" value="video">Video</mat-radio-button>
+            <mat-radio-button class="radio-button" value="blog">Blog</mat-radio-button>
+            <mat-radio-button class="radio-button" value="podcast">Podcast</mat-radio-button>
+            <mat-radio-button class="radio-button" value="release">Release</mat-radio-button>
+            <mat-radio-button class="radio-button" value="community">Community</mat-radio-button>
+          </mat-radio-group>
+        </div>
+      </div>
+
+      <!-- duration -->
+      <div class="form-row">
+        <!-- <div class="form-label">Duration</div> -->
+        <div class="form-field">
+          <mat-form-field appearance="fill" color="primary">
+            <mat-label>Duration</mat-label>
+            <input
+              formControlName="duration"
+              id="duration"
+              type="text"
+              class="input-text"
+              matInput
+              #delivery
+              autocomplete="off"
+            />
+          </mat-form-field>
+        </div>
+      </div>
+
+      <!-- description -->
+      <div class="form-row">
+        <!-- <div class="form-label">Description</div> -->
+        <div class="form-field">
+          <mat-form-field appearance="fill" color="primary">
+            <mat-label>Description</mat-label>
+            <textarea
+              formControlName="description"
+              id="description"
+              type="text"
+              class="input-text"
+              matInput
+              #delivery
+              autocomplete="off"
+              cdkTextareaAutosize
+            ></textarea>
+          </mat-form-field>
+        </div>
+      </div>
+
+    </div>
+
+
+
+
+    <div class="form-col">
+      <!-- datePosted -->
+      <div class="form-row">
+        <!-- <div class="form-label">Date Posted</div> -->
+        <div class="form-field">
+          <mat-form-field appearance="fill" color="primary">
+            <mat-label>Date Posted</mat-label>
+            <input
+              formControlName="datePosted"
+              matInput
+              [matDatepicker]="datePosted"
+              (dateChange)="dateChanged()"
+            />
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="datePosted"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #datePosted></mat-datepicker>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <!-- dateSource -->
+      <div class="form-row">
+        <!-- <div class="form-label">Date Created</div> -->
+        <div class="form-field">
+          <mat-form-field appearance="fill" color="primary">
+            <mat-label>Date Created</mat-label>
+            <input
+              formControlName="dateSource"
+              matInput
+              [matDatepicker]="dateSource"
+            />
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="dateSource"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #dateSource></mat-datepicker>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <!-- sourceSite -->
+      <div class="form-row">
+        <!-- <div class="form-label">Source Site</div> -->
+        <div class="form-field">
+          <mat-form-field appearance="fill" color="primary">
+            <mat-label>Source Site</mat-label>
+            <input
+              formControlName="sourceSite"
+              id="sourceSite"
+              type="text"
+              class="input-text"
+              matInput
+              #delivery
+              autocomplete="off"
+            />
+          </mat-form-field>
+        </div>
+      </div>
+
+      <!-- sourceUrl -->
+      <div class="form-row">
+        <!-- <div class="form-label">Source URL</div> -->
+        <div class="form-field">
+          <mat-form-field appearance="fill" color="primary">
+            <mat-label>Source URL</mat-label>
+            <input
+              formControlName="sourceUrl"
+              id="sourceUrl"
+              type="text"
+              class="input-text"
+              matInput
+              #delivery
+              autocomplete="off"
+            />
+          </mat-form-field>
+        </div>
+      </div>
+
+      <!-- authorName -->
+      <div class="form-row">
+        <!-- <div class="form-label">Author Name</div> -->
+        <div class="form-field">
+          <mat-form-field appearance="fill" color="primary">
+            <mat-label>Author Name</mat-label>
+            <input
+              formControlName="authorName"
+              id="authorName"
+              type="text"
+              class="input-text"
+              matInput
+              #delivery
+              autocomplete="off"
+            />
+          </mat-form-field>
+        </div>
+      </div>
+
+      <!-- authorUrl -->
+      <div class="form-row">
+        <!-- <div class="form-label">Author URL</div> -->
+        <div class="form-field">
+          <mat-form-field appearance="fill" color="primary">
+            <mat-label>Author URL</mat-label>
+            <input
+              formControlName="authorUrl"
+              id="authorUrl"
+              type="text"
+              class="input-text"
+              matInput
+              #delivery
+              autocomplete="off"
+            />
+          </mat-form-field>
+        </div>
+      </div>
+
+      <!-- tags -->
+      <div class="form-row">
+        <!-- <div class="form-label">Tags</div> -->
+        <div class="form-field">
+          <mat-form-field appearance="fill" color="primary">
+            <mat-label>Tags</mat-label>
+            <input
+              formControlName="tags"
+              id="tags"
+              type="text"
+              class="input-text"
+              matInput
+              #delivery
+              autocomplete="off"
+            />
+          </mat-form-field>
+        </div>
+      </div>
+
+      <!-- postedBy -->
+      <div class="form-row">
+        <!-- <div class="form-label">Posted By</div> -->
+        <div class="form-field">
+          <mat-form-field appearance="fill" color="primary">
+            <mat-label>Posted By</mat-label>
+            <input
+              formControlName="postedBy"
+              id="postedBy"
+              type="text"
+              class="input-text"
+              matInput
+              #delivery
+              autocomplete="off"
+            />
+          </mat-form-field>
+        </div>
+      </div>
+            <div class="actions-container">
+        <button
+          mat-raised-button
+          class="btn-submit"
+          (click)="onSubmit()"
+        >
+          Submit
+        </button>
+      </div>
+    </div>
+  </form>
+</div>
