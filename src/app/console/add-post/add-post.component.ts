@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { FormBuilder, FormControl } from '@angular/forms';
 
+import { urlAutofillMatches } from '../services/urlAutofillMatches';
+
 @Component({
   selector: 'app-add-post',
   templateUrl: './add-post.component.html',
@@ -39,6 +41,7 @@ export class AddPostComponent implements OnInit {
     { value: 'community', viewValue: 'Community' },
   ];
   typeControl = new FormControl();
+
   constructor(private fb: FormBuilder, private db: AngularFirestore) {}
 
   ngOnInit(): void {
@@ -62,7 +65,11 @@ export class AddPostComponent implements OnInit {
         if (data === undefined) {
           newSlug = `${dateString}-a`;
         } else {
-          const currLetter = Object.keys(data).sort().slice(-1).pop()?.slice(-1);
+          const currLetter = Object.keys(data)
+            .sort()
+            .slice(-1)
+            .pop()
+            ?.slice(-1);
           if (currLetter) {
             nextLetter = this.nextChar(currLetter);
             newSlug = `${dateString}-${nextLetter}`;
@@ -104,98 +111,17 @@ export class AddPostComponent implements OnInit {
 
   watchUrl() {
     this.postForm.get('url')?.valueChanges.subscribe((val) => {
-      // YouTube (VIDEO)
-      if (val.includes('https://www.youtube.com/')) {
-        this.postForm.patchValue({
-          type: 'video',
-          sourceSite: 'YouTube',
-          sourceUrl: 'https://youtube.com',
-        });
-      }
-      // DEV Community (BLOG)
-      if (val.includes('https://dev.to')) {
-        this.postForm.patchValue({
-          type: 'blog',
-          sourceSite: 'DEV Community',
-          sourceUrl: 'https://dev.to',
-        });
-      }
-      // Angular Show (PODCAST)
-      if (val.includes('https://www.spreaker.com/user/ng-conf')) {
-        this.postForm.patchValue({
-          type: 'podcast',
-          sourceSite: 'Spreaker',
-          sourceUrl: 'https://www.spreaker.com',
-          authorName: 'The Angular Show',
-          authorUrl: 'https://www.spreaker.com/show/angular-show',
-        });
-      }
-      // Angular Air (PODCAST)
-      if (val.includes('https://adventuresinangular.com')) {
-        this.postForm.patchValue({
-          type: 'podcast',
-          sourceSite: 'Devchat.tv',
-          sourceUrl: 'https://devchat.tv',
-          authorName: 'Adventures In Angular',
-          authorUrl: 'https://devchat.tv/show/adventures-in-angular/',
-        });
-      }
-      // Angular Master (PODCAST)
-      if (val.includes('https://open.spotify.com')) {
-        this.postForm.patchValue({
-          type: 'podcast',
-          sourceSite: 'Spotify',
-          sourceUrl: 'https://open.spotify.com',
-          authorName: 'Angular Master Podcast',
-          authorUrl: 'https://open.spotify.com/show/1wgZAEEIoRZ8eP78LTbyZf',
-        });
-      }
-      // ngBuild --pod (PODCAST)
-      if (val.includes('https://anchor.fm/ng-build-pod')) {
-        this.postForm.patchValue({
-          type: 'podcast',
-          sourceSite: 'Anchor',
-          sourceUrl: 'https://anchor.fm/ng-build-pod/',
-          authorName: 'ng build --pod',
-          authorUrl: 'https://ngbuildpod.com',
-        });
-      }
-      // Angular Experience (PODCAST)
-      if (val.includes('https://www.spreaker.com/user/14532324')) {
-        this.postForm.patchValue({
-          type: 'podcast',
-          sourceSite: 'Spreaker',
-          sourceUrl: 'https://spreaker.com',
-          authorName: 'Angular Experience',
-          authorUrl: 'https://angular-experience.web.app/episodes',
-        });
-      }
-      // Web Rush (PODCAST)
-      if (val.includes('https://webrush.io')) {
-        this.postForm.patchValue({
-          type: 'podcast',
-          sourceSite: '',
-          sourceUrl: '',
-          authorName: 'Web Rush',
-          authorUrl: 'https://webrush.io',
-        });
-      }
-      // inDepthDev (BLOG)
-      if (val.includes('https://indepth.dev')) {
-        this.postForm.patchValue({
-          type: 'blog',
-          sourceSite: 'inDepthDev',
-          sourceUrl: 'https://indepth.dev/tutorials/angular',
-        });
-      }
-      // Angular Release (RELEASE)
-      if (val.includes('https://indepth.dev')) {
-        this.postForm.patchValue({
-          type: 'release',
-          sourceSite: 'GitHub Angular',
-          sourceUrl: 'https://github.com/angular/angular/releases',
-        });
-      }
+      urlAutofillMatches.forEach((element) => {
+        if (val.includes(element.urlPartial)) {
+          this.postForm.patchValue({
+            type: element.type,
+            sourceSite: element.sourceSite,
+            sourceUrl: element.sourceUrl,
+            authorName: element.authorName,
+            authorUrl: element.authorUrl,
+          });
+        }
+      });
     });
   }
 
