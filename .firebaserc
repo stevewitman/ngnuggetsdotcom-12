@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "ngnuggets": {
+      "hosting": {
+        "ngnuggetsdotcom": [
+          "ngnuggets"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "ngnuggets"
+  }
+}
