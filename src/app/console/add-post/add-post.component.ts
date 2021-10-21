@@ -1,10 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { AngularFirestore } from '@angular/fire/firestore';
+import { AngularFirestore, DocumentSnapshot } from '@angular/fire/firestore';
 import { FormBuilder, FormControl } from '@angular/forms';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { PostAdminService } from '../services/post-admin.service';
 
-// import { urlAutofillMatches } from '../services/urlAutofillMatches';
+import { NewPostData } from '../models/new-post-data';
+import { AutofillFromUrl } from '../models/new-post-data';
 
 @Component({
   selector: 'app-add-post',
@@ -15,8 +16,8 @@ export class AddPostComponent implements OnInit, OnDestroy {
   today = new Date();
   tagsArray: string[] = [];
   postForm = this.fb.group({
-    // slug: [this.findNextSlug(this.todayString(this.today))],
-    slug: [this.findNextSlug('2021-09-02')],
+    slug: [this.findNextSlug(this.todayString(this.today))],
+    // slug: [this.findNextSlug('2021-09-02')],
     url: [''],
     type: [''],
     duration: [''],
@@ -45,16 +46,54 @@ export class AddPostComponent implements OnInit, OnDestroy {
   typeControl = new FormControl();
 
   subscription1$!: Subscription;
+  newPostData$!: Observable<DocumentSnapshot<NewPostData>>;
+  newPostData!: NewPostData;
 
-  constructor(private fb: FormBuilder, private db: AngularFirestore, private postAdminService: PostAdminService) {}
+  constructor(
+    private fb: FormBuilder,
+    private db: AngularFirestore,
+    private postAdminService: PostAdminService
+  ) {}
 
   ngOnInit(): void {
-    this.watchUrl();
+    this.getNewPostData();
+    this.watchUrlValueChanges();
     this.watchTags();
   }
 
   ngOnDestroy() {
     this.subscription1$.unsubscribe();
+  }
+
+  getNewPostData() {
+    this.newPostData$ = this.postAdminService.getNewPostData() as Observable<
+      DocumentSnapshot<NewPostData>
+    >;
+    this.subscription1$ = this.newPostData$.subscribe((snap: any) => {
+      const data = snap.data();
+      if (data !== undefined) {
+        this.newPostData = data;
+      } else {
+        console.log('DATA UNDEFINED');
+      }
+    });
+  }
+
+  watchUrlValueChanges() {
+    // When url field changes, if matches urlPartial then autofill appropriate fields.
+    this.postForm.get('url')?.valueChanges.subscribe((val) => {
+      this.newPostData.autofillFromUrl.forEach((element: AutofillFromUrl) => {
+        if (val.includes(element.urlPartial)) {
+          this.postForm.patchValue({
+            type: element.type,
+            sourceSite: element.sourceSite,
+            sourceUrl: element.sourceUrl,
+            authorName: element.authorName,
+            authorUrl: element.authorUrl,
+          });
+        }
+      });
+    });
   }
 
   onSubmit() {
@@ -113,30 +152,6 @@ export class AddPostComponent implements OnInit, OnDestroy {
         date: snap.id,
         ...(<any>snap.data()),
       };
-    });
-  }
-
-  watchUrl() {
-    // autofill appropriate fields based on the url that is entered
-    let result: any[] = [];
-    this.subscription1$ = this.postAdminService
-      .getAutofillFromUrlList()
-      .subscribe((snap) => {
-        const data: any = snap.data();
-        result = data.items;
-      });
-    var observable1 = this.postForm.get('url')?.valueChanges.subscribe((val) => {
-      result.forEach((element) => {
-        if (val.includes(element.urlPartial)) {
-          this.postForm.patchValue({
-            type: element.type,
-            sourceSite: element.sourceSite,
-            sourceUrl: element.sourceUrl,
-            authorName: element.authorName,
-            authorUrl: element.authorUrl,
-          });
-        }
-      });
     });
   }
 

@@ -7,8 +7,8 @@ import { AngularFirestore } from '@angular/fire/firestore';
 export class PostAdminService {
   constructor(private afs: AngularFirestore) {}
 
-  getAutofillFromUrlList() {
-    return this.afs.doc('/config/autofillFromUrlData').get();
+  getNewPostData() {
+    return this.afs.doc('/config/newPostData').get();
   }
 
 }
