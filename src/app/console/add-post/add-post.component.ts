@@ -1,15 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { FormBuilder, FormControl } from '@angular/forms';
+import { Subscription } from 'rxjs';
+import { PostAdminService } from '../services/post-admin.service';
 
-import { urlAutofillMatches } from '../services/urlAutofillMatches';
+// import { urlAutofillMatches } from '../services/urlAutofillMatches';
 
 @Component({
   selector: 'app-add-post',
   templateUrl: './add-post.component.html',
   styleUrls: ['./add-post.component.scss'],
 })
-export class AddPostComponent implements OnInit {
+export class AddPostComponent implements OnInit, OnDestroy {
   today = new Date();
   tagsArray: string[] = [];
   postForm = this.fb.group({
@@ -42,11 +44,17 @@ export class AddPostComponent implements OnInit {
   ];
   typeControl = new FormControl();
 
-  constructor(private fb: FormBuilder, private db: AngularFirestore) {}
+  subscription1$!: Subscription;
+
+  constructor(private fb: FormBuilder, private db: AngularFirestore, private postAdminService: PostAdminService) {}
 
   ngOnInit(): void {
     this.watchUrl();
     this.watchTags();
+  }
+
+  ngOnDestroy() {
+    this.subscription1$.unsubscribe();
   }
 
   onSubmit() {
@@ -61,7 +69,6 @@ export class AddPostComponent implements OnInit {
       .get()
       .subscribe((snap: any) => {
         const data = snap.data();
-        console.log('DATA:', data);
         if (data === undefined) {
           newSlug = `${dateString}-a`;
         } else {
@@ -110,8 +117,16 @@ export class AddPostComponent implements OnInit {
   }
 
   watchUrl() {
-    this.postForm.get('url')?.valueChanges.subscribe((val) => {
-      urlAutofillMatches.forEach((element) => {
+    // autofill appropriate fields based on the url that is entered
+    let result: any[] = [];
+    this.subscription1$ = this.postAdminService
+      .getAutofillFromUrlList()
+      .subscribe((snap) => {
+        const data: any = snap.data();
+        result = data.items;
+      });
+    var observable1 = this.postForm.get('url')?.valueChanges.subscribe((val) => {
+      result.forEach((element) => {
         if (val.includes(element.urlPartial)) {
           this.postForm.patchValue({
             type: element.type,
