@@ -4,8 +4,7 @@ import { FormBuilder, FormControl } from '@angular/forms';
 import { Observable, Subscription } from 'rxjs';
 import { PostAdminService } from '../services/post-admin.service';
 
-import { NewPostData } from '../models/new-post-data';
-import { AutofillFromUrl } from '../models/new-post-data';
+import { NewPostData, AutofillFromUrl, AutofillFromAuthorName } from '../models/new-post-data';
 
 @Component({
   selector: 'app-add-post',
@@ -58,6 +57,7 @@ export class AddPostComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.getNewPostData();
     this.watchUrlValueChanges();
+    this.watchAuthorNameValueChanges();
     this.watchTags();
   }
 
@@ -93,6 +93,21 @@ export class AddPostComponent implements OnInit, OnDestroy {
           });
         }
       });
+    });
+  }
+
+  watchAuthorNameValueChanges() {
+    // When authorName field changes, autofill authorUrl field.
+    this.postForm.get('authorName')?.valueChanges.subscribe((val) => {
+      this.newPostData.autofillFromAuthorName.forEach(
+        (element: AutofillFromAuthorName) => {
+          if (val === element.authorName) {
+            this.postForm.patchValue({
+              authorUrl: element.authorUrl,
+            });
+          }
+        }
+      );
     });
   }
 

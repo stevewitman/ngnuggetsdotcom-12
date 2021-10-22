@@ -11,4 +11,7 @@ export class PostAdminService {
     return this.afs.doc('/config/newPostData').get();
   }
 
+  getNewPostDataTemp() {
+    return this.afs.doc('/config/newPostDataTemp').get();
+  }
 }

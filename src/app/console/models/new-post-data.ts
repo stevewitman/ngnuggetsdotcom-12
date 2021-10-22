@@ -7,6 +7,12 @@ export interface AutofillFromUrl {
   authorUrl?: string;
 }
 
+export interface AutofillFromAuthorName {
+  authorName: string;
+  authorUrl?: string;
+}
+
 export interface NewPostData {
   autofillFromUrl: AutofillFromUrl[];
+  autofillFromAuthorName: AutofillFromAuthorName[];
 }
