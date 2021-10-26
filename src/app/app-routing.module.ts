@@ -1,6 +1,13 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatRadioModule } from '@angular/material/radio';
+
 import { HomePageComponent } from './core/home-page/home-page.component';
+
 
 const routes: Routes = [
   {
@@ -21,6 +28,13 @@ const routes: Routes = [
     loadChildren: () =>
       import('./feat-newsletter/newsletter.module').then(
         (m) => m.NewsletterModule
+      ),
+  },
+  {
+    path: 'submit',
+    loadChildren: () =>
+      import('./feat-submit/submit.module').then(
+        (m) => m.SubmitModule
       ),
   },
 ];
