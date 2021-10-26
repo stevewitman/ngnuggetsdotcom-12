@@ -14,11 +14,13 @@ import { AppComponent } from './app.component';
 
 import { environment } from '../environments/environment';
 import { NavComponent } from './core/nav/nav.component';
+import { HomePageComponent } from './core/home-page/home-page.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    NavComponent
+    NavComponent,
+    HomePageComponent
   ],
   imports: [
     BrowserModule,
