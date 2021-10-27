@@ -1,13 +1,7 @@
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatIconModule } from '@angular/material/icon';
-import { MatInputModule } from '@angular/material/input';
-import { MatRadioModule } from '@angular/material/radio';
+import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 
 import { HomePageComponent } from './core/home-page/home-page.component';
-
 
 const routes: Routes = [
   {
@@ -29,26 +23,48 @@ const routes: Routes = [
       import('./feat-newsletter/newsletter.module').then(
         (m) => m.NewsletterModule
       ),
+    data: {
+      title: 'ngNuggets - Newsletter',
+      position: 2,
+    },
   },
   {
     path: 'submit',
     loadChildren: () =>
       import('./feat-submit/submit.module').then((m) => m.SubmitModule),
+    data: {
+      title: 'ngNuggets - Submit',
+      position: 3,
+    },
   },
   {
     path: 'about',
     loadChildren: () =>
       import('./feat-about/about.module').then((m) => m.AboutModule),
+    data: {
+      title: 'ngNuggets - About',
+      position: 4,
+    },
   },
   {
     path: 'contact',
     loadChildren: () =>
       import('./feat-contact/contact.module').then((m) => m.ContactModule),
+    data: {
+      title: 'ngNuggets - Contact',
+      position: 5,
+    },
   },
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  imports: [
+    RouterModule.forRoot(routes, {
+      initialNavigation: 'enabled',
+      scrollPositionRestoration: 'top', // only works WITHOUT height: 100% on body,html
+      preloadingStrategy: PreloadAllModules,
+    }),
+  ],
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

@@ -24,6 +24,5 @@ import { NewsletterPageComponent } from './newsletter-page/newsletter-page.compo
     MatInputModule,
     MatRadioModule,
   ],
-  exports: [NewsletterPageComponent],
 })
 export class NewsletterModule {}
