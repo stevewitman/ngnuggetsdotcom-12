@@ -40,6 +40,11 @@ const routes: Routes = [
     loadChildren: () =>
       import('./feat-about/about.module').then((m) => m.AboutModule),
   },
+  {
+    path: 'contact',
+    loadChildren: () =>
+      import('./feat-contact/contact.module').then((m) => m.ContactModule),
+  },
 ];
 
 @NgModule({
