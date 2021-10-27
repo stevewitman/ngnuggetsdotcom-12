@@ -33,9 +33,12 @@ const routes: Routes = [
   {
     path: 'submit',
     loadChildren: () =>
-      import('./feat-submit/submit.module').then(
-        (m) => m.SubmitModule
-      ),
+      import('./feat-submit/submit.module').then((m) => m.SubmitModule),
+  },
+  {
+    path: 'about',
+    loadChildren: () =>
+      import('./feat-about/about.module').then((m) => m.AboutModule),
   },
 ];
 
