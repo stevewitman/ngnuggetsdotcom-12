@@ -55,6 +55,15 @@ const routes: Routes = [
       position: 5,
     },
   },
+  {
+    path: 'settings',
+    loadChildren: () =>
+      import('./feat-settings/settings.module').then((m) => m.SettingsModule),
+    data: {
+      title: 'ngNuggets - Settings',
+      position: 6,
+    },
+  },
 ];
 
 @NgModule({
