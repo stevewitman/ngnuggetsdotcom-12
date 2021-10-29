@@ -64,6 +64,15 @@ const routes: Routes = [
       position: 6,
     },
   },
+  {
+    path: 'sponsors',
+    loadChildren: () =>
+      import('./feat-sponsors/sponsors.module').then((m) => m.SponsorsModule),
+    data: {
+      title: 'ngNuggets - Sponsors',
+      position: 7,
+    },
+  },
 ];
 
 @NgModule({
