@@ -73,6 +73,15 @@ const routes: Routes = [
       position: 7,
     },
   },
+  {
+    path: 'donate',
+    loadChildren: () =>
+      import('./feat-donate/donate.module').then((m) => m.DonateModule),
+    data: {
+      title: 'ngNuggets - Donate',
+      position: 8,
+    },
+  },
 ];
 
 @NgModule({
