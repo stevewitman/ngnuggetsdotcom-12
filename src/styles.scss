@@ -128,3 +128,16 @@ mat-form-field {
 .question {
   padding-left: 0.1em;
 }
+
+.ngnuggets-form-field {
+  .mat-form-field-flex {
+    background-color: var(--color-turquoise100) !important;
+    padding-bottom: 0px;
+  }
+  .mat-form-field-wrapper {
+    margin-bottom: -21px;
+  }
+  // .mat-form-field-underline {
+  //   background-color: red !important;
+  // } 
+}
