@@ -20,11 +20,15 @@ export class SubmitPageComponent implements OnInit {
   showFormErrors = false;
   isSignedIn = false;
   panelOpenState = false;
+  // test$: [];
 
   constructor(private fb: FormBuilder) {}
 
   ngOnInit(): void {
     this.initializeForm();
+    // if (this.test$) {
+    //   console.log('`here`')
+    // }
   }
 
   initializeForm(): void {
